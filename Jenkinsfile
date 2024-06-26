@@ -1,6 +1,11 @@
 pipeline {
     agent any
     stages {
+        stage('Verificar versión de Maven') {
+          steps {
+            sh 'mvn -v'
+          }
+        }
         stage('Build') {
             steps {
                 powershell 'Write-Output  "Credential sonarqube : '+credentials('252sonarqubecredentail') + '"'
