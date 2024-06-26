@@ -2,9 +2,9 @@ pipeline {
     agent any
     stages {
         stage('Verificar versión de Maven') {
-          steps {
-            sh 'mvn -v'
-          }
+            steps {
+                powershell 'mvn -v' 
+            }
         }
         stage('Build') {
             steps {
