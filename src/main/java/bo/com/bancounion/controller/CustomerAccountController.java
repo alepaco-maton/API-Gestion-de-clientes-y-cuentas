@@ -106,17 +106,17 @@ public class CustomerAccountController {
     })
     @GetMapping(produces = "application/json; charset=UTF-8")
     public List<ListCustomerAccountResponse> findByCustomerId(
-            @RequestParam(required = false) @Parameter(name = "name",
+            @RequestParam(required = false) @Parameter(name = "customerId",
                     description = "Filtrado por el contenido y no sensible a "
                     + "mayúsculas y minúsculas sobre el campo nombre.",
-                    example = "Alex") int id
+                    example = "Alex") int customerId
     ) throws ExceptionResponse {
-        return readCustomerAccountService.findByCustomerId(id);
+        return readCustomerAccountService.findByCustomerId(customerId);
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Actualizar cliente",
-            description = "Este metodo nos permite actualizar los datos de los clientes.")
+    @Operation(summary = "Actualizar cuentas",
+            description = "Este metodo nos permite actualizar los datos de las cuentas.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Ok - Recurso actualizado"),
         @ApiResponse(responseCode = "400", description = "Bad Request - Errores generales de solicitud (sintaxis, formato, URL).",
@@ -144,8 +144,8 @@ public class CustomerAccountController {
     }
 
     @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Eliminar cliente",
-            description = "Este metodo nos permite eliminar clientes.")
+    @Operation(summary = "Eliminar Cuenta",
+            description = "Este metodo nos permite eliminar cuentas.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Ok - Recurso actualizado"),
         @ApiResponse(responseCode = "404", description = "Not Found - El recurso especificado "

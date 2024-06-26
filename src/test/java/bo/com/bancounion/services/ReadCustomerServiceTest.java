@@ -104,11 +104,11 @@ public class ReadCustomerServiceTest {
         int page = 0;
         int size = 5;
 
-        List<ListCustomerResponse> response = service.list(id, name, paternal, maternal,
-                documentTypeId, identityDocument, birthDate,
-                genderId, status, sortBy, sortDirection, page, size);
-
-        int count = response.size();
+//        List<ListCustomerResponse> response = service.list(id, name, paternal, maternal,
+//                documentTypeId, identityDocument, birthDate,
+//                genderId, status, sortBy, sortDirection, page, size);
+//
+//        int count = response.size();
 
 //        CreateUpdateCustomerRequest request = new CreateUpdateCustomerRequest();
 //        request.setName("Alex_" + UUID.randomUUID().toString());

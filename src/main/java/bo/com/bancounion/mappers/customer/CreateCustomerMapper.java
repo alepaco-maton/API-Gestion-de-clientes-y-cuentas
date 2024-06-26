@@ -16,20 +16,21 @@ import bo.com.bancounion.repository.IGenderRepository;
  * @author alepaco.com
  */
 public class CreateCustomerMapper {
-    
-    public static Customer mapperToEntity(CreateUpdateCustomerRequest dto, 
+
+    public static Customer mapperToEntity(CreateUpdateCustomerRequest dto,
             IDocumentTypeRepository documentTypeRepository,
             IGenderRepository genderRepository) {
-        return new Customer(null, dto.getName(), dto.getPaternal(),
-                dto.getMaternal(),
+        return new Customer(null, dto.getName().trim(),
+                ((dto.getPaternal() == null) ? null : dto.getPaternal().trim()),
+                ((dto.getMaternal() == null) ? null : dto.getMaternal().trim()),
                 documentTypeRepository.findById(dto.getDocumentTypeId()).orElse(null),
-                dto.getIdentityDocument(),
+                dto.getIdentityDocument().trim(),
                 dto.getBirthDate(),
                 genderRepository.findById(dto.getGenderId()).orElse(null),
                 CustomerStatus.ACTIVE
         );
     }
-    
+
     public static CreateCustomerResponse mapperToDto(Customer model) {
         return new CreateCustomerResponse(model.getId(), model.getName(),
                 model.getPaternal(),
@@ -40,5 +41,5 @@ public class CreateCustomerMapper {
                 CreateCustomerGenderMapper.mapperToDto(model.getGender())
         );
     }
-    
+
 }

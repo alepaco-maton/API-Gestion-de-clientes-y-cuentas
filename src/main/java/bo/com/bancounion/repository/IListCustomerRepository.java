@@ -5,7 +5,6 @@
 package bo.com.bancounion.repository;
 
 import bo.com.bancounion.entity.Customer;
-import java.util.Date;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
@@ -17,12 +16,12 @@ import org.springframework.stereotype.Component;
 public interface IListCustomerRepository {
 
     List<Customer> filter(String id, String name, String paternal,
-            String maternal, Integer documentTypeId, String identityDocument,
-            Date birthDate, Integer genderId, String status, String sortBy,
+            String maternal, String documentType, String identityDocument,
+            String birthDate, String gender, String status, String sortBy,
             String sortDirection, int page, int size);
 
     long count(String id, String name, String paternal, String maternal, 
-            Integer documentTypeId, String identityDocument, Date birthDate, 
-            Integer genderId, String status);
+            String documentType, String identityDocument, String birthDate, 
+            String gender, String status);
 
 }

@@ -28,5 +28,6 @@ public class ListCustomerAccountResponse {
     private Date creationDate; 
     private String branch;  
     private String status;
+    private Integer customerId;
         
 }

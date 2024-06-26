@@ -31,23 +31,25 @@ public class ReadCustomerService {
     IListCustomerRepository repository;
 
     public List<ListCustomerResponse> list(String id, String name, String paternal,
-            String maternal, Integer documentTypeId, String identityDocument,
-            Date birthDate, Integer genderId, String status,
+            String maternal, String documentType, String identityDocument,
+            String birthDate, String gender, String status,
             String sortBy, String sortDirection, int page, int size) throws ExceptionResponse {
 
         List<ListCustomerResponse> response = repository.filter(id, name, paternal,
-                maternal, documentTypeId, identityDocument, birthDate, genderId,
-                status, sortBy, sortDirection, page, size).stream().
+                maternal, documentType, identityDocument, birthDate,
+                gender, status, sortBy, sortDirection, page, size).stream().
                 map(m -> ReadCustomerMapper.mapperToDto(m)).
                 collect(Collectors.toList());
 
         return response;
     }
 
-    public long count(String id, String name, String paternal, String maternal, Integer documentTypeId, String identityDocument, Date birthDate, Integer genderId, String status) {
+    public long count(String id, String name, String paternal, String maternal,
+            String documentType, String identityDocument, String birthDate,
+            String gender, String status) {
         return repository.count(id, name, paternal,
-                maternal, documentTypeId, identityDocument, birthDate, genderId,
-                status);
+                maternal, documentType, identityDocument,
+                birthDate, gender, status);
     }
 
 }

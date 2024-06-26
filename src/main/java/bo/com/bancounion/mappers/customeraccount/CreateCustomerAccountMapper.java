@@ -17,13 +17,13 @@ import java.util.Date;
  * @author alepaco.com
  */
 public class CreateCustomerAccountMapper {
-    
-    public static CustomerAccount mapperToEntity(CreateUpdateCustomerAccountRequest dto, 
+
+    public static CustomerAccount mapperToEntity(CreateUpdateCustomerAccountRequest dto,
             IProductTypeRepository productTypeRepository,
             ICustomerRepository customerRepository) {
-        return new CustomerAccount(null, 
+        return new CustomerAccount(null,
                 productTypeRepository.findById(dto.getProductTypeId()).orElse(null),
-                dto.getAccountNumber(),
+                dto.getAccountNumber().trim(),
                 dto.getCurrency(),
                 dto.getAmount(),
                 new Date(),
@@ -32,9 +32,9 @@ public class CreateCustomerAccountMapper {
                 CustomerAccountStatus.ACTIVE
         );
     }
-    
+
     public static CreateCustomerAccountResponse mapperToDto(CustomerAccount model) {
-        return new CreateCustomerAccountResponse(model.getId(), 
+        return new CreateCustomerAccountResponse(model.getId(),
                 CreateCustomerAccountProductTypeMapper.mapperToDto(model.getProductType()),
                 model.getAccountNumber(),
                 model.getCurrency(),
@@ -45,5 +45,5 @@ public class CreateCustomerAccountMapper {
                 CustomerAccountStatus.ACTIVE
         );
     }
-    
+
 }

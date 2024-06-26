@@ -23,7 +23,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Date;
 import java.util.List;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +55,7 @@ import org.springframework.web.bind.annotation.RestController;
     RequestMethod.DELETE, RequestMethod.GET, RequestMethod.OPTIONS})
 @RequestMapping(CustomerController.API_RESOURCE)
 public class CustomerController {
-    
+
     public static final String API_RESOURCE = "/api/v1/customer";
 
     @Autowired
@@ -126,9 +125,9 @@ public class CustomerController {
                     description = "Filtrado por el contenido y no sensible a "
                     + "mayúsculas y minúsculas sobre el campo materno.",
                     example = "Surco") String maternal,
-            @RequestParam(required = false) @Parameter(name = "documentTypeId",
+            @RequestParam(required = false) @Parameter(name = "documentType",
                     description = "Filtrado por el identificador unico de tipo de documento.",
-                    example = "1") Integer documentTypeId,
+                    example = "1") String documentType,
             @RequestParam(required = false) @Parameter(name = "identityDocument",
                     description = "Filtrado por el contenido y no sensible a "
                     + "mayúsculas y minúsculas sobre el campo documento de identificación.",
@@ -137,9 +136,9 @@ public class CustomerController {
                     description = "Filtrado por el contenido y no sensible a "
                     + "mayúsculas y minúsculas sobre el campo nombre.",
                     example = "04/11/1992") String birthDate,
-            @RequestParam(required = false) @Parameter(name = "genero",
+            @RequestParam(required = false) @Parameter(name = "gender",
                     description = "Filtrado por el identificador unico de genero.",
-                    example = "1") Integer genderId,
+                    example = "1") String gender,
             @RequestParam(required = false) @Parameter(name = "status",
                     description = "Filtrado por el contenido y no sensible a "
                     + "mayúsculas y minúsculas sobre el campo estado.",
@@ -162,16 +161,14 @@ public class CustomerController {
         }
 
         List<ListCustomerResponse> response = readClientService.list(id, name,
-                paternal, maternal, documentTypeId, identityDocument,
-                //birthDate,
-                null,
-                genderId, status, sortBy, sortDirection, page, size);
+                paternal, maternal, documentType, identityDocument,
+                birthDate,
+                gender, status, sortBy, sortDirection, page, size);
 
         long totalElements = readClientService.count(id, name,
-                paternal, maternal, documentTypeId, identityDocument,
-                //birthDate,
-                null,
-                genderId, status);
+                paternal, maternal, documentType, identityDocument,
+                birthDate,
+                gender, status);
 
         return new PageImpl<>(response, pageable, totalElements);
     }

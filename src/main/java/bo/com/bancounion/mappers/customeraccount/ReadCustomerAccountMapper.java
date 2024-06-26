@@ -22,7 +22,8 @@ public class ReadCustomerAccountMapper {
                 model.getAmount(),
                 model.getCreationDate(),
                 model.getBranch(),
-                model.getStatus()
+                model.getStatus(),
+                model.getCustomer().getId()
         );
     }
 

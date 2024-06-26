@@ -13,6 +13,7 @@ import java.util.Map;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
@@ -67,7 +68,18 @@ public class ResponseBodyInterceptor implements ResponseBodyAdvice<Object> {
         }
 
         respMessage.append("DATA ").append(", \n");
-        respMessage.append(" responseBody = [").append(body).append("]").append(", \n");
+
+        if (body instanceof Page) {
+            Page page = (Page) body;
+            respMessage.append(" responseBody = [").
+                    append("totalPages=").append(page.getTotalPages()).
+                    append("totalElements=").append(page.getTotalElements()).
+                    append("size=").append(page.getSize()).
+                    append("content=").append(page.getContent()).
+                    append("]").append(", \n");
+        } else {
+            respMessage.append(" responseBody = [").append(body).append("]").append(", \n");
+        }
 
         respMessage.append("------------------------------------------------\n");
 
