@@ -1,11 +1,6 @@
 pipeline {
     agent any
-    stages {
-        stage('Verificar versión de Maven') {
-            steps {
-                powershell 'mvn -v' 
-            }
-        }
+    stages { 
         stage('Build') {
             steps {
                 powershell 'Write-Output  "Credential sonarqube : '+credentials('252sonarqubecredentail') + '"'
@@ -36,6 +31,13 @@ pipeline {
                 publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')], checksName: '', sourceFileResolver: sourceFiles('NEVER_STORE')
             }
         } 
+        stage('sonarqube') {
+           steps {
+               withSonarQubeEnv(credentialsId: 'sonarqubecredentail') {
+                   // some block
+               }
+           }
+       }
     } 
 
 }
