@@ -30,14 +30,7 @@ pipeline {
                 jacoco()
                 publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')], checksName: '', sourceFileResolver: sourceFiles('NEVER_STORE')
             }
-        }
-        stage('sonarqube') {
-            steps {
-                withSonarQubeEnv(credentialsId: 'sonarqubecredentail') {
-                    // some block
-                }
-            }
-        }
+        } 
     } 
 
 }
