@@ -1,9 +1,15 @@
+
+
 pipeline {
     agent any
-    stages { 
+    stages {  
+        stage("SCM") {
+            steps {
+                git branch: 'main', url: 'https://github.com/alepaco-maton/API-Gestion-de-clientes-y-cuentas.git'
+            }
+        }
         stage('Build') {
             steps {
-                powershell 'Write-Output  "Credential sonarqube : '+credentials('252sonarqubecredentail') + '"'
                 powershell 'mvn -B -DskipTests clean package'
             } 
         }
@@ -31,7 +37,38 @@ pipeline {
                 publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')], checksName: '', sourceFileResolver: sourceFiles('NEVER_STORE')
             }
         } 
-         
-    } 
 
+         stage('Build/Test') {
+            steps {
+                echo 'Testing - Coverage Test (Unit/IT)'
+                sh "mvn clean install"
+                echo 'SonarQube'
+                withSonarQubeEnv(credentialsId: 'JenkinsTokenSonar', installationName: 'sonarqubeserver') {
+                    sh "$SONNAR_HOME/bin/sonar-scanner -Dproject.settings='sonar-project.properties'"
+                }
+            }
+        }
+        stage("SonarQube analysis") {
+            agent any
+            steps { 
+              withSonarQubeEnv(installationName: 'sonarqubelocal', credentialsId: 'sonarqubecredentail') {
+                powershell 'xcopy  C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\API-Gestion-de-clientes-y-cuentas  . /E /I /Y'
+                powershell '''
+                    mvn sonar:sonar \
+                      -Dsonar.maven.scanAll=true \
+                      -Dsonar.language=java \
+                      -Dsonar.sources=src/main/java \
+                      -Dsonar.java.binaries=. \
+                      -Dsonar.sourceEncoding=UTF-8 \
+                      -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
+                      -Dsonar.tests=src/test/java \
+                      -Dsonar.dependencyCheck.htmlReportPath=dependency-check-report.html \
+                      -Dsonar.java.spotbugs.reportPaths=target/spotbugsXml.xml \
+                      -Dsonar.java.checkstyle.reportPaths=target/reports/checkstyle/checkstyle-result.xml
+                '''
+              }
+            }
+          }
+ 
+    } 
 }
