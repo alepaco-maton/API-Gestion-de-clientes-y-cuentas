@@ -32,8 +32,7 @@ pipeline {
                 publishCoverage adapters: [jacocoAdapter('target/site/jacoco/jacoco.xml')], checksName: '', sourceFileResolver: sourceFiles('NEVER_STORE')
             }
         }  
-        stage("SonarQube analysis") {
-            agent any
+        stage("SonarQube analysis") { 
             steps { 
               withSonarQubeEnv(installationName: 'sonarqubelocal', credentialsId: 'sonarqubecredentail') {
                 powershell 'xcopy  C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\API-Gestion-de-clientes-y-cuentas  . /E /I /Y'
@@ -42,7 +41,9 @@ pipeline {
             }
         } 
         stage('Deploy Test') {
-            powershell 'Copy-Item -Path "target\\pruebatecnica-0.0.1-SNAPSHOT.war" -Destination "c:\\xamp\\tomcat\\webapps"  -Force'
+            steps { 
+                powershell 'Copy-Item -Path "target\\pruebatecnica-0.0.1-SNAPSHOT.war" -Destination "c:\\xamp\\tomcat\\webapps"  -Force'
+            }
         }
         stage('Test integration') {
             steps {
