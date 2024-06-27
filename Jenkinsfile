@@ -42,7 +42,7 @@ pipeline {
             }
         } 
         stage('Deploy Test') {
-            powershell 'Copy-Item -Path "target\\pruebatecnica-0.0.1-SNAPSHOT.war" -Destination "C:\DestinationFolder"  -Force'
+            powershell 'Copy-Item -Path "target\\pruebatecnica-0.0.1-SNAPSHOT.war" -Destination "c:\\xamp\\tomcat\\webapps"  -Force'
         }
         stage('Test integration') {
             steps {
