@@ -1,5 +1,3 @@
-
-
 pipeline {
     agent any
     stages {  
@@ -33,16 +31,19 @@ pipeline {
             }
         }  
         stage("SonarQube analysis") { 
+            agent any
             steps { 
               withSonarQubeEnv(installationName: 'sonarqubelocal', credentialsId: 'sonarqubecredentail') {
                 powershell 'xcopy  C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\API-Gestion-de-clientes-y-cuentas  . /E /I /Y'
                 powershell 'mvn sonar:sonar'
               }
             }
-        } 
+        }
         stage('Deploy Test') {
+            agent any
             steps { 
-                powershell 'Copy-Item -Path "target\\pruebatecnica-0.0.1-SNAPSHOT.war" -Destination "c:\\xamp\\tomcat\\webapps"  -Force'
+                powershell 'Copy-Item -Path target\\pruebatecnica-0.0.1-SNAPSHOT.war -Destination C:\\apache-tomcat-10.1.25\\webapps -Force -Recurse'
+                 powershell 'Start-Sleep -Seconds 10'
             }
         }
         stage('Test integration') {
