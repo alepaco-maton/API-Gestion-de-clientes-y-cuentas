@@ -49,7 +49,7 @@ public class Customer {
     @Column(length = MATERNAL_MAX_LENGHT) 
     private String maternal;
     
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "document_type_id", referencedColumnName = "id", nullable = false)
     private DocumentType documentType;
     
@@ -59,7 +59,7 @@ public class Customer {
     @Temporal(TemporalType.DATE)
     private Date birthDate;
     
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "gender_id", referencedColumnName = "id", nullable = false)
     private Gender gender;
     
